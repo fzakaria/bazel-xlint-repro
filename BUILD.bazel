@@ -1,0 +1,73 @@
+load("@rules_java//toolchains:default_java_toolchain.bzl", "default_java_toolchain")
+load("@rules_java//java:java_library.bzl", "java_library")
+
+java_library(
+    name = "DeprecatedLib",
+    srcs = ["DeprecatedLib.java"],
+
+)
+
+java_library(
+    name = "Demo",
+    srcs = ["Demo.java"],
+    deps = [
+        ":DeprecatedLib",
+    ],
+)
+
+
+[default_java_toolchain(
+    name = "java_%s_toolchain" % VERSION,
+    configuration = dict(),
+    package_configuration = [
+        # This configuration is passed after source_version and target_version so it can override them
+        ":xlint",
+        ":java_11",
+        ":werror",
+    ],
+    source_version = VERSION,
+    target_version = VERSION,
+    visibility = ["//visibility:public"],
+) for VERSION in [
+    "21",
+]]
+
+java_package_configuration(
+    name = "java_11",
+    javacopts = ["--release 11"],
+    packages = [
+        ":all_packages",
+    ],
+)
+
+java_package_configuration(
+    name = "werror",
+    javacopts = ["-Werror"],
+    packages = [":werror_packages"],
+)
+
+java_package_configuration(
+    name = "xlint",
+    javacopts = [
+        "-Xlint:all",
+        "-Xlint:deprecation",
+        "-Xlint:-classfile",
+        "-Xlint:-serial",
+        "-Xlint:-try",
+    ],
+    packages = [":all_packages"],
+)
+
+package_group(
+    name = "all_packages",
+    packages = [
+        "//...",
+    ],
+)
+
+package_group(
+    name = "werror_packages",
+    packages = [
+        "//...",
+    ],
+)

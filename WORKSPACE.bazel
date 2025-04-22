@@ -1,0 +1,2 @@
+# Register custom toolchains ahead of those in rules_java so they take precedence
+register_toolchains("//:java_21_toolchain_definition")
