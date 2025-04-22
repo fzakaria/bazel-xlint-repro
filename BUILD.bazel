@@ -15,6 +15,26 @@ java_library(
     ],
 )
 
+java_test(
+    name = "DeprecatedLibTest",
+    srcs = ["DeprecatedLibTest.java"],
+    test_class = "DeprecatedLibTest",
+    deps = [
+        ":DeprecatedLib",
+    ],
+)
+
+java_test(
+    name = "DeprecatedLibFailTest",
+    srcs = ["DeprecatedLibFailTest.java"],
+    test_class = "DeprecatedLibTest",
+    deps = [
+        ":DeprecatedLib",
+        "@junit_jupiter//jar",
+    ],
+)
+
+
 
 [default_java_toolchain(
     name = "java_%s_toolchain" % VERSION,

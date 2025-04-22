@@ -1,2 +1,10 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_jar")
+
 # Register custom toolchains ahead of those in rules_java so they take precedence
 register_toolchains("//:java_21_toolchain_definition")
+
+http_jar(
+    name = "junit_jupiter",
+    url = "https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar",
+    sha256 = "afff77c186cd317275803872fa5133aa801fd6ac40bd91c78a6cf8009b4b17cc",
+)
